@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SparkTrack PH – Track Power. Save Smarter.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --green-dark: #1a4a1a;
+      --green-mid: #2d7a2d;
+      --green-main: #3a9c3a;
+      --green-bright: #5bc85b;
+      --green-light: #a8e6a8;
+      --green-pale: #e8f8e8;
+      --black: #0d0d0d;
+      --charcoal: #1c1c1c;
+      --white: #ffffff;
+      --off-white: #f5faf5;
+      --gray: #6b7c6b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.2rem 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(90,200,90,0.15);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.4rem;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--green-bright); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.7); text-decoration: none;
+      font-size: 0.88rem; font-weight: 500; letter-spacing: 0.3px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--green-bright); }
+    .nav-cta {
+      background: var(--green-main); color: #fff;
+      padding: 0.55rem 1.3rem; border-radius: 50px;
+      font-size: 0.85rem; font-weight: 600; text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { background: var(--green-bright); transform: translateY(-1px); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 7rem 5% 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 40%, rgba(58,156,58,0.18) 0%, transparent 60%),
+                  radial-gradient(ellipse at 20% 80%, rgba(26,74,26,0.25) 0%, transparent 50%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0; opacity: 0.04;
+      background-image: linear-gradient(var(--green-main) 1px, transparent 1px),
+                        linear-gradient(90deg, var(--green-main) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 600px;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(58,156,58,0.15); border: 1px solid rgba(91,200,91,0.3);
+      color: var(--green-bright); font-size: 0.78rem; font-weight: 600;
+      padding: 0.35rem 0.9rem; border-radius: 50px; margin-bottom: 1.5rem;
+      letter-spacing: 0.8px; text-transform: uppercase;
+    }
+    .hero-tag::before { content: '⚡'; font-size: 0.85rem; }
+    .hero h1 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.05;
+      letter-spacing: -2px; margin-bottom: 1.2rem;
+    }
+    .hero h1 .accent { color: var(--green-bright); }
+    .hero p {
+      font-size: 1.1rem; line-height: 1.7;
+      color: rgba(255,255,255,0.65); max-width: 480px;
+      margin-bottom: 2.2rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--green-main); color: #fff;
+      padding: 0.85rem 2rem; border-radius: 50px;
+      font-size: 0.95rem; font-weight: 600; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 0 30px rgba(58,156,58,0.35);
+    }
+    .btn-primary:hover { background: var(--green-bright); transform: translateY(-2px); }
+    .btn-outline {
+      border: 1.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);
+      padding: 0.85rem 2rem; border-radius: 50px;
+      font-size: 0.95rem; font-weight: 500; text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--green-bright); color: var(--green-bright); }
+
+    .hero-visual {
+      position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+      width: clamp(280px, 38vw, 520px);
+      opacity: 0.9;
+    }
+    .phone-mockup {
+      background: linear-gradient(135deg, #1e3a1e, #0d1f0d);
+      border: 2px solid rgba(91,200,91,0.25);
+      border-radius: 28px; padding: 1.5rem;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 60px rgba(58,156,58,0.1);
+    }
+    .phone-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .phone-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; }
+    .phone-notif { color: var(--green-bright); font-size: 1rem; }
+    .gauge-wrap { text-align: center; margin: 1rem 0; }
+    .gauge-label { font-size: 0.7rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
+    .gauge-number { font-family: 'Syne', sans-serif; font-size: 2.8rem; font-weight: 800; color: var(--white); }
+    .gauge-unit { font-size: 0.8rem; color: var(--green-bright); margin-left: 3px; }
+    .gauge-arc {
+      width: 140px; height: 70px; margin: 0.5rem auto;
+      border-radius: 140px 140px 0 0;
+      border: 8px solid rgba(91,200,91,0.15);
+      border-bottom: none;
+      position: relative;
+    }
+    .gauge-fill {
+      position: absolute; inset: -8px; bottom: auto;
+      width: 140px; height: 70px;
+      border-radius: 140px 140px 0 0;
+      border: 8px solid var(--green-bright);
+      border-bottom: none;
+      clip-path: polygon(0 100%, 65% 100%, 65% 0, 0 0);
+    }
+    .bars { display: flex; align-items: flex-end; gap: 6px; margin: 1rem 0; height: 60px; }
+    .bar {
+      flex: 1; border-radius: 4px 4px 0 0;
+      background: linear-gradient(to top, var(--green-dark), var(--green-mid));
+      transition: background 0.3s;
+    }
+    .bar.active { background: linear-gradient(to top, var(--green-mid), var(--green-bright)); }
+    .bar-labels { display: flex; gap: 6px; }
+    .bar-label { flex: 1; text-align: center; font-size: 0.55rem; color: var(--gray); }
+    .appliance-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.75rem;
+    }
+    .appliance-row:last-child { border: none; }
+    .appl-bar-wrap { flex: 1; margin: 0 0.8rem; height: 5px; background: rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; }
+    .appl-bar { height: 100%; border-radius: 10px; background: var(--green-bright); }
+
+    /* STATS */
+    .stats-strip {
+      background: var(--green-dark);
+      padding: 2rem 5%;
+      display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+      border-top: 1px solid rgba(91,200,91,0.2);
+      border-bottom: 1px solid rgba(91,200,91,0.2);
+    }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--green-bright); }
+    .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.55); margin-top: 0.2rem; }
+
+    /* SECTION BASE */
+    section { padding: 6rem 5%; }
+    .section-label {
+      font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--green-bright); font-weight: 600; margin-bottom: 0.7rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem); letter-spacing: -1px;
+      margin-bottom: 1rem; line-height: 1.15;
+    }
+    .section-sub {
+      color: rgba(255,255,255,0.55); font-size: 1rem; line-height: 1.7;
+      max-width: 540px;
+    }
+
+    /* PROBLEM */
+    #problem { background: var(--charcoal); }
+    .problem-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+      margin-top: 3rem; border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px; overflow: hidden;
+    }
+    .prob-card {
+      padding: 2.5rem; background: rgba(255,255,255,0.02);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background 0.3s;
+    }
+    .prob-card:hover { background: rgba(58,156,58,0.07); }
+    .prob-card:nth-child(2n) { border-right: none; }
+    .prob-card:nth-child(n+3) { border-bottom: none; }
+    .prob-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .prob-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; color: var(--green-light); }
+    .prob-text { font-size: 0.88rem; color: rgba(255,255,255,0.55); line-height: 1.7; }
+
+    /* FEATURES */
+    #features { background: var(--black); }
+    .features-layout {
+      display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem;
+      align-items: center; margin-top: 3rem;
+    }
+    .feature-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .feat-item {
+      display: flex; gap: 1.2rem; align-items: flex-start;
+      padding: 1.5rem; border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      cursor: pointer; transition: all 0.3s;
+    }
+    .feat-item:hover, .feat-item.active {
+      border-color: rgba(91,200,91,0.35);
+      background: rgba(58,156,58,0.1);
+    }
+    .feat-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .feat-text h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem; }
+    .feat-text p { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    .app-preview {
+      background: linear-gradient(145deg, #1a3a1a, #0a180a);
+      border: 1px solid rgba(91,200,91,0.2);
+      border-radius: 24px; padding: 2rem;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+    .preview-header {
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem;
+      text-align: center; margin-bottom: 1.2rem;
+      padding-bottom: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .calc-field { margin-bottom: 1rem; }
+    .calc-label { font-size: 0.72rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.35rem; }
+    .calc-input {
+      width: 100%; padding: 0.7rem 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(91,200,91,0.25);
+      border-radius: 8px; color: var(--white); font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+    }
+    .calc-input:focus { outline: none; border-color: var(--green-bright); }
+    .wattage-badge {
+      display: inline-block;
+      background: var(--green-main); color: #fff;
+      padding: 0.45rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    .day-btns { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+    .day-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      background: none; color: rgba(255,255,255,0.5);
+      font-size: 0.75rem; cursor: pointer; transition: all 0.2s;
+    }
+    .day-btn.on { background: var(--green-main); border-color: var(--green-main); color: #fff; }
+    .calc-btn {
+      width: 100%; padding: 0.85rem;
+      background: linear-gradient(135deg, var(--green-main), var(--green-bright));
+      border: none; border-radius: 8px; color: #fff;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem;
+      cursor: pointer; letter-spacing: 0.5px;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .calc-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
+    .result-box {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(91,200,91,0.15);
+      border-radius: 10px; padding: 1rem; text-align: center;
+    }
+    .result-amount { font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--green-bright); }
+    .result-period { font-size: 0.65rem; color: var(--gray); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* SHOP TO SAVE */
+    #shop { background: var(--charcoal); }
+    .shop-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .shop-card {
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px; overflow: hidden;
+      background: rgba(255,255,255,0.02);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .shop-card:hover { transform: translateY(-4px); border-color: rgba(91,200,91,0.3); }
+    .shop-card-img {
+      background: linear-gradient(135deg, #1a3a1a, #0d2a0d);
+      padding: 2rem; text-align: center; font-size: 3.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .shop-card-body { padding: 1.5rem; }
+    .shop-old { font-size: 0.75rem; color: var(--gray); margin-bottom: 0.3rem; }
+    .shop-arrow { color: var(--green-bright); font-size: 1.2rem; margin: 0.5rem 0; display: block; }
+    .shop-new { font-size: 0.85rem; color: var(--green-light); font-weight: 500; margin-bottom: 0.8rem; }
+    .savings-badge {
+      background: var(--green-main); color: #fff;
+      padding: 0.4rem 0.9rem; border-radius: 6px;
+      font-size: 0.8rem; font-weight: 700; display: inline-block;
+    }
+    .shop-links { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+    .shop-link-btn {
+      padding: 0.4rem 0.9rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .shop-link-btn:hover { opacity: 0.8; }
+    .btn-lazada { background: #F57224; color: #fff; }
+    .btn-shopee { background: #EE4D2D; color: #fff; }
+    .btn-tiktok { background: #000; color: #fff; border: 1px solid #333; }
+
+    /* HISTORY */
+    #history { background: var(--black); }
+    .history-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 3rem; }
+    .history-text p { font-size: 0.95rem; color: rgba(255,255,255,0.6); line-height: 1.85; margin-bottom: 1.2rem; }
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(to bottom, var(--green-main), transparent);
+    }
+    .tl-item { position: relative; margin-bottom: 2rem; padding-left: 1rem; }
+    .tl-dot {
+      position: absolute; left: -2.45rem; top: 0.3rem;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--green-bright); border: 2px solid var(--black);
+      box-shadow: 0 0 8px rgba(91,200,91,0.5);
+    }
+    .tl-year { font-size: 0.72rem; color: var(--green-bright); font-weight: 600; letter-spacing: 0.5px; margin-bottom: 0.2rem; }
+    .tl-event { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem; }
+    .tl-desc { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    /* FOUNDERS */
+    #founders { background: var(--charcoal); }
+    .founders-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .founder-card {
+      padding: 2rem 1.5rem; text-align: center;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px; background: rgba(255,255,255,0.02);
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .founder-card:hover { border-color: rgba(91,200,91,0.3); transform: translateY(-3px); }
+    .founder-avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green-dark), var(--green-main));
+      margin: 0 auto 1rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-family: 'Syne', sans-serif; font-weight: 800;
+      border: 2px solid rgba(91,200,91,0.3);
+    }
+    .founder-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 0.25rem; }
+    .founder-role { font-size: 0.78rem; color: var(--green-bright); font-weight: 600; margin-bottom: 0.6rem; letter-spacing: 0.3px; }
+    .founder-bio { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.65; }
+
+    /* COMPETITORS */
+    #competitors { background: var(--black); }
+    .comp-table { width: 100%; border-collapse: collapse; margin-top: 2.5rem; }
+    .comp-table th {
+      text-align: left; padding: 0.9rem 1.2rem;
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--green-bright); border-bottom: 2px solid rgba(91,200,91,0.2);
+    }
+    .comp-table td {
+      padding: 1rem 1.2rem; font-size: 0.88rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.7);
+    }
+    .comp-table tr:hover td { background: rgba(58,156,58,0.05); }
+    .comp-ours td { color: var(--white); font-weight: 500; background: rgba(58,156,58,0.08) !important; }
+    .comp-ours td:first-child { color: var(--green-bright); font-weight: 700; }
+    .tag-direct { background: rgba(239,68,68,0.15); color: #f87171; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; }
+    .tag-indirect { background: rgba(251,191,36,0.15); color: #fbbf24; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; }
+    .tag-us { background: rgba(58,156,58,0.2); color: var(--green-bright); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; }
+
+    /* REVENUE */
+    #revenue { background: var(--charcoal); }
+    .revenue-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+    .revenue-card {
+      border: 1px solid rgba(91,200,91,0.2);
+      border-radius: 16px; padding: 2rem;
+      background: rgba(58,156,58,0.04);
+    }
+    .rev-badge {
+      display: inline-block; font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      padding: 0.3rem 0.8rem; border-radius: 4px; margin-bottom: 1rem;
+    }
+    .rev-primary { background: var(--green-main); color: #fff; }
+    .rev-secondary { background: rgba(91,200,91,0.15); color: var(--green-bright); }
+    .rev-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem; margin-bottom: 0.7rem; }
+    .rev-desc { font-size: 0.88rem; color: rgba(255,255,255,0.55); line-height: 1.7; }
+    .fin-table { width: 100%; border-collapse: collapse; margin-top: 3rem; }
+    .fin-table th, .fin-table td {
+      padding: 1rem 1.5rem; text-align: right; font-size: 0.88rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .fin-table th { color: var(--green-bright); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.8px; }
+    .fin-table td:first-child, .fin-table th:first-child { text-align: left; }
+    .fin-profit td { color: var(--green-bright); font-weight: 700; font-family: 'Syne', sans-serif; font-size: 0.95rem; }
+
+    /* CTA */
+    #cta {
+      background: linear-gradient(135deg, var(--green-dark) 0%, #0d1f0d 60%, var(--black) 100%);
+      text-align: center; padding: 7rem 5%;
+      border-top: 1px solid rgba(91,200,91,0.2);
+    }
+    #cta .section-title { font-size: clamp(2rem, 4vw, 3.2rem); }
+    #cta p { color: rgba(255,255,255,0.55); margin: 1rem auto 2.5rem; max-width: 500px; line-height: 1.7; }
+    .cta-store-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .store-btn {
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.15);
+      padding: 0.9rem 1.6rem; border-radius: 12px;
+      text-decoration: none; color: var(--white); transition: all 0.2s;
+    }
+    .store-btn:hover { background: rgba(58,156,58,0.2); border-color: rgba(91,200,91,0.4); }
+    .store-btn .store-icon { font-size: 1.5rem; }
+    .store-btn-text { text-align: left; }
+    .store-small { font-size: 0.65rem; color: rgba(255,255,255,0.5); }
+    .store-big { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 3rem 5% 2rem;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; }
+    .footer-logo span { color: var(--green-bright); }
+    .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.8rem; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--green-bright); }
+
+    /* ANIMATIONS */
+    .fade-up {
+      opacity: 0; transform: translateY(24px);
+      animation: fadeUp 0.7s forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.45s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero-visual { display: none; }
+      .features-layout, .history-layout, .revenue-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .prob-card { border-right: none !important; }
+      nav .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 4rem 5%; }
+      .founders-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Spark<span>Track</span> PH</div>
+  <ul class="nav-links">
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#shop">Shop to Save</a></li>
+    <li><a href="#founders">Team</a></li>
+    <li><a href="#revenue">Financials</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Download App</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag fade-up">CleanTech · Philippines</div>
+    <h1 class="fade-up delay-1">Track <span class="accent">Power.</span><br/>Save Smarter.</h1>
+    <p class="fade-up delay-2">SparkTrack PH is the mobile energy companion built for Filipino households — track daily consumption, cut bills, and live sustainably.</p>
+    <div class="hero-btns fade-up delay-3">
+      <a href="#features" class="btn-primary">⚡ Explore Features</a>
+    </div>
+  </div>
+  <div class="hero-visual fade-up delay-4">
+    <div class="phone-mockup">
+      <div class="phone-header">
+        <span class="phone-title">SparkTrack PH</span>
+        <span class="phone-notif">🔔</span>
+      </div>
+      <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.8px;color:var(--gray);text-align:center;margin-bottom:0.8rem;">Energy Dashboard</div>
+      <div class="gauge-wrap">
+        <div class="gauge-arc"><div class="gauge-fill"></div></div>
+        <div class="gauge-label">Current Usage</div>
+        <div><span class="gauge-number">28</span><span class="gauge-unit">kWh</span></div>
+      </div>
+      <div class="bars">
+        <div class="bar" style="height:60%"></div>
+        <div class="bar" style="height:75%"></div>
+        <div class="bar active" style="height:82%"></div>
+        <div class="bar" style="height:59%"></div>
+        <div class="bar" style="height:72%"></div>
+      </div>
+      <div class="bar-labels">
+        <span class="bar-label">Mon</span><span class="bar-label">Tue</span>
+        <span class="bar-label">Wed</span><span class="bar-label">Thu</span><span class="bar-label">Fri</span>
+      </div>
+      <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.8px;color:var(--gray);margin:0.9rem 0 0.4rem;">Usage by Appliance</div>
+      <div class="appliance-row"><span>Aircon</span><div class="appl-bar-wrap"><div class="appl-bar" style="width:85%"></div></div><span style="font-size:0.7rem;color:var(--green-bright)">50 kWh</span></div>
+      <div class="appliance-row"><span>Refrigerator</span><div class="appl-bar-wrap"><div class="appl-bar" style="width:55%"></div></div><span style="font-size:0.7rem;color:var(--green-bright)">32 kWh</span></div>
+      <div class="appliance-row"><span>Lighting</span><div class="appl-bar-wrap"><div class="appl-bar" style="width:20%"></div></div><span style="font-size:0.7rem;color:var(--green-bright)">12 kWh</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat"><div class="stat-num">₱0.21</div><div class="stat-label">Avg. kWh rate in PH</div></div>
+  <div class="stat"><div class="stat-num">27/32</div><div class="stat-label">Prototype approvals</div></div>
+  <div class="stat"><div class="stat-num">9</div><div class="stat-label">Users interviewed (GOOTB)</div></div>
+  <div class="stat"><div class="stat-num">₱1,250</div><div class="stat-label">Potential monthly savings</div></div>
+</div>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="section-label">The Challenge</div>
+  <h2 class="section-title">Why SparkTrack Exists</h2>
+  <p class="section-sub">Filipino households are in the dark — not just about their appliances, but about where their money goes every month.</p>
+  <div class="problem-grid">
+    <div class="prob-card">
+      <div class="prob-icon">💸</div>
+      <div class="prob-title">High Electricity Bills</div>
+      <p class="prob-text">The Philippines has one of the highest electricity rates in Southeast Asia at ~₱0.21/kWh. Bills arrive monthly but consumption happens daily — by the time you see the bill, it's too late.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">🔍</div>
+      <div class="prob-title">Limited Visibility</div>
+      <p class="prob-text">Most Filipino households have no way to track per-appliance energy consumption. Without visibility, there is no control — making it almost impossible to reduce expenses or adopt energy-saving habits.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">📱</div>
+      <div class="prob-title">No Tools for Low-Income Families</div>
+      <p class="prob-text">Existing solutions like smart meters or international apps don't support Philippine electricity providers or provincial rate structures. Low-to-middle income households are left behind.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">🌏</div>
+      <div class="prob-title">Environmental Impact</div>
+      <p class="prob-text">Energy inefficiency at the household level has a compound effect on the environment. Greater visibility leads to greener choices — essential for sustainable development in the Philippines.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-label">What We Offer</div>
+  <h2 class="section-title">Everything You Need to<br/>Take Control</h2>
+  <p class="section-sub">Six powerful modules, all in one app — designed for everyday Filipino families.</p>
+  <div class="features-layout">
+    <div class="feature-list">
+      <div class="feat-item active">
+        <div class="feat-icon">📊</div>
+        <div class="feat-text">
+          <h3>Energy Dashboard</h3>
+          <p>Real-time daily, weekly, and monthly electricity usage visualized in clean, easy-to-read charts. Know exactly how much you're spending before the bill arrives.</p>
+        </div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">🏠</div>
+        <div class="feat-text">
+          <h3>Appliance Tracker</h3>
+          <p>Log every appliance in your home and track its individual power consumption. Identify the biggest energy hogs in minutes.</p>
+        </div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">🧮</div>
+        <div class="feat-text">
+          <h3>Appliance Energy Calculator</h3>
+          <p>Input usage hours and days to calculate the exact cost per hour, day, week, and month for any appliance — powered by PH provincial electricity rates.</p>
+        </div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">📓</div>
+        <div class="feat-text">
+          <h3>Personalized Saving Journal</h3>
+          <p>Save your calculator results and monitor your savings progress over time. Your own personal energy finance diary.</p>
+        </div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">🛒</div>
+        <div class="feat-text">
+          <h3>Shop to Save</h3>
+          <p>Get tailored appliance replacement recommendations with potential savings estimates, directly linked to Lazada, Shopee, and TikTok Shop.</p>
+        </div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">💡</div>
+        <div class="feat-text">
+          <h3>Fun Facts & Tips</h3>
+          <p>Bite-sized energy-saving tips and fun electricity facts delivered through engaging notifications — making sustainability educational and fun.</p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="app-preview">
+        <div class="preview-header">⚡ Appliance Energy Calculator</div>
+        <div class="calc-field">
+          <div class="calc-label">Select an Appliance</div>
+          <select class="calc-input" id="applianceSelect" onchange="updateWattage()">
+            <option value="1100">Air Conditioner – Split Type, Inverter (1.5HP)</option>
+            <option value="150">LED Light Bulb (10W)</option>
+            <option value="350">Refrigerator – Inverter Type</option>
+            <option value="2000">Washing Machine</option>
+            <option value="1500">Electric Fan (Stand)</option>
+            <option value="750">Microwave Oven</option>
+          </select>
+        </div>
+        <div class="wattage-badge" id="wattageBadge">Wattage: 1100W</div>
+        <div class="calc-field">
+          <div class="calc-label">Daily Usage (Hours)</div>
+          <input class="calc-input" type="number" id="hoursInput" value="8" min="0" max="24"/>
+        </div>
+        <div class="calc-field">
+          <div class="calc-label">Weekly Usage (Days)</div>
+          <div class="day-btns">
+            <button class="day-btn" onclick="toggleDay(this)">SU</button>
+            <button class="day-btn on" onclick="toggleDay(this)">M</button>
+            <button class="day-btn on" onclick="toggleDay(this)">T</button>
+            <button class="day-btn on" onclick="toggleDay(this)">W</button>
+            <button class="day-btn on" onclick="toggleDay(this)">TH</button>
+            <button class="day-btn on" onclick="toggleDay(this)">F</button>
+            <button class="day-btn" onclick="toggleDay(this)">S</button>
+          </div>
+        </div>
+        <div class="calc-field">
+          <div class="calc-label">Monthly Usage (Weeks)</div>
+          <input class="calc-input" type="number" id="weeksInput" value="4" min="1" max="6"/>
+        </div>
+        <button class="calc-btn" onclick="calculate()">CALCULATE</button>
+        <div class="results-grid" id="results" style="display:none">
+          <div class="result-box"><div class="result-amount" id="r-hour">—</div><div class="result-period">Cost per Hour</div></div>
+          <div class="result-box"><div class="result-amount" id="r-day">—</div><div class="result-period">Cost per Day</div></div>
+          <div class="result-box"><div class="result-amount" id="r-week">—</div><div class="result-period">Cost per Week</div></div>
+          <div class="result-box"><div class="result-amount" id="r-month">—</div><div class="result-period">Cost per Month</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP TO SAVE -->
+<section id="shop">
+  <div class="section-label">Smart Upgrades</div>
+  <h2 class="section-title">Shop to Save</h2>
+  <p class="section-sub">SparkTrack compares your current appliances to energy-efficient alternatives and shows you exactly how much you'll save — then links you directly to buy.</p>
+  <div class="shop-cards">
+    <div class="shop-card">
+      <div class="shop-card-img">❄️</div>
+      <div class="shop-card-body">
+        <div class="shop-old">🔴 Old Air Conditioner (Non-Inverter)</div>
+        <span class="shop-arrow">↓</span>
+        <div class="shop-new">✅ New 1.5HP Inverter AC</div>
+        <div class="savings-badge">Save ₱1,250/month</div>
+        <div class="shop-links">
+          <a href="#" class="shop-link-btn btn-lazada">Lazada</a>
+          <a href="#" class="shop-link-btn btn-shopee">Shopee</a>
+          <a href="#" class="shop-link-btn btn-tiktok">TikTok</a>
+        </div>
+      </div>
+    </div>
+    <div class="shop-card">
+      <div class="shop-card-img">💡</div>
+      <div class="shop-card-body">
+        <div class="shop-old">🔴 Incandescent Light Bulbs</div>
+        <span class="shop-arrow">↓</span>
+        <div class="shop-new">✅ LED Light Bulbs (10W)</div>
+        <div class="savings-badge">Save ₱150/month</div>
+        <div class="shop-links">
+          <a href="#" class="shop-link-btn btn-lazada">Lazada</a>
+          <a href="#" class="shop-link-btn btn-shopee">Shopee</a>
+        </div>
+      </div>
+    </div>
+    <div class="shop-card">
+      <div class="shop-card-img">🫙</div>
+      <div class="shop-card-body">
+        <div class="shop-old">🔴 Old Washing Machine</div>
+        <span class="shop-arrow">↓</span>
+        <div class="shop-new">✅ Inverter Washing Machine</div>
+        <div class="savings-badge">Save ₱800/month</div>
+        <div class="shop-links">
+          <a href="#" class="shop-link-btn btn-lazada">Lazada</a>
+          <a href="#" class="shop-link-btn btn-shopee">Shopee</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- FOUNDERS -->
+<section id="founders">
+  <div class="section-label">The Team</div>
+  <h2 class="section-title">Meet the Founders</h2>
+  <p class="section-sub">A dedicated team of civil engineering students from MMSU–Batac Campus who turned classroom frustration into a real-world CleanTech venture.</p>
+  <div class="founders-grid">
+    <div class="founder-card">
+      <div class="founder-avatar">AJ</div>
+      <div class="founder-name">Althea Jade Curpoz</div>
+      <div class="founder-role">Co-Founder</div>
+      <div class="founder-bio">Civil Engineering student at Mariano Marcos State University – Batac Campus. Passionate about using technology to solve everyday problems faced by Filipino households.</div>
+    </div>
+    <div class="founder-card">
+      <div class="founder-avatar">MU</div>
+      <div class="founder-name">Manuel Ulysses Aquino</div>
+      <div class="founder-role">Co-Founder</div>
+      <div class="founder-bio">Civil Engineering student at MMSU–Batac Campus. Driven by a vision of sustainable infrastructure and smarter energy use across Philippine communities.</div>
+    </div>
+    <div class="founder-card">
+      <div class="founder-avatar">MK</div>
+      <div class="founder-name">Mark Kevin Damo</div>
+      <div class="founder-role">Co-Founder</div>
+      <div class="founder-bio">Civil Engineering student at MMSU–Batac Campus. Focused on bridging the gap between engineering principles and practical digital solutions for energy efficiency.</div>
+    </div>
+    <div class="founder-card">
+      <div class="founder-avatar">ZC</div>
+      <div class="founder-name">Zeian Carl Dela Cruz</div>
+      <div class="founder-role">Co-Founder</div>
+      <div class="founder-bio">Civil Engineering student at MMSU–Batac Campus. Committed to empowering low- and middle-income Filipino families with tools to manage and reduce their electricity costs.</div>
+    </div>
+    <div class="founder-card">
+      <div class="founder-avatar">JJ</div>
+      <div class="founder-name">Jhay Joseph Bagcal</div>
+      <div class="founder-role">Co-Founder</div>
+      <div class="founder-bio">Civil Engineering student at MMSU–Batac Campus. Advocates for clean technology and environmental responsibility, helping shape SparkTrack PH's sustainability mission.</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETITORS -->
+<section id="competitors">
+  <div class="section-label">Market Position</div>
+  <h2 class="section-title">How We Compare</h2>
+  <p class="section-sub">Every competitor leaves Filipino households behind. SparkTrack PH is built from the ground up for the Philippine market.</p>
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Type</th>
+        <th>Strengths</th>
+        <th>Weaknesses</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="comp-ours">
+        <td>⚡ SparkTrack PH</td>
+        <td><span class="tag-us">Ours</span></td>
+        <td>PH provincial rates, per-appliance tracking, savings calculator, affiliate e-commerce, AI tips</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>Meralco Mobile App</td>
+        <td><span class="tag-direct">Direct</span></td>
+        <td>Historical usage and bill estimate</td>
+        <td>Only for Meralco customers</td>
+      </tr>
+      <tr>
+        <td>Smart Meter</td>
+        <td><span class="tag-indirect">Indirect</span></td>
+        <td>Tracks electricity use in real time</td>
+        <td>No per-appliance breakdown</td>
+      </tr>
+      <tr>
+        <td>Sense Home Energy Monitor</td>
+        <td><span class="tag-direct">Direct</span></td>
+        <td>Real-time tracking of appliance use</td>
+        <td>No Philippine electricity provider support</td>
+      </tr>
+      <tr>
+        <td>Kill-Ur-Watts</td>
+        <td><span class="tag-direct">Direct</span></td>
+        <td>Easy to use for quick estimates</td>
+        <td>No official Philippine support</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- REVENUE -->
+<section id="revenue">
+  <div class="section-label">Business Model</div>
+  <h2 class="section-title">How SparkTrack Makes Money</h2>
+  <div class="revenue-layout">
+    <div class="revenue-card">
+      <span class="rev-badge rev-primary">Primary</span>
+      <div class="rev-name">Freemium Model</div>
+      <div class="rev-desc">Free access to core features (energy dashboard, basic tracking). Premium subscription unlocks advanced analytics, unlimited appliance slots, personalized AI savings plans, and priority support.</div>
+    </div>
+    <div class="revenue-card">
+      <span class="rev-badge rev-secondary">Secondary</span>
+      <div class="rev-name">Affiliate Marketing</div>
+      <div class="rev-desc">Commission-based revenue when users purchase energy-efficient appliances via affiliate links to Lazada, Shopee, and TikTok Shop. Aligns revenue with user savings outcomes.</div>
+    </div>
+  </div>
+  <table class="fin-table">
+    <thead>
+      <tr>
+        <th>Financial Overview (PHP)</th>
+        <th>Year 1</th>
+        <th>Year 2</th>
+        <th>Year 3</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Revenues</td>
+        <td>₱13,200,000,000</td>
+        <td>₱15,840,000,000</td>
+        <td>₱18,816,000,000</td>
+      </tr>
+      <tr>
+        <td>Total Expenses</td>
+        <td>₱2,409,700,000</td>
+        <td>₱2,885,640,000</td>
+        <td>₱3,462,768,000</td>
+      </tr>
+      <tr class="fin-profit">
+        <td>Profit</td>
+        <td>₱10,790,300,000</td>
+        <td>₱12,954,360,000</td>
+        <td>₱15,353,232,000</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="section-label">Get Started</div>
+  <h2 class="section-title">Track Power.<br/>Save Smarter.</h2>
+  <p>Join thousands of Filipino households taking control of their electricity bills. SparkTrack PH is free to download.</p>
+  <div class="cta-store-btns">
+    <a href="#" class="store-btn">
+      <span class="store-icon">🍎</span>
+      <div class="store-btn-text">
+        <div class="store-small">Download on the</div>
+        <div class="store-big">App Store</div>
+      </div>
+    </a>
+    <a href="#" class="store-btn">
+      <span class="store-icon">🤖</span>
+      <div class="store-btn-text">
+        <div class="store-small">Get it on</div>
+        <div class="store-big">Google Play</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Spark<span>Track</span> PH</div>
+  <div class="footer-copy">© 2026 SparkTrack PH · Mariano Marcos State University – Batac Campus · Wadhwani Foundation</div>
+  <div class="footer-links">
+    <a href="#problem">Problem</a>
+    <a href="#features">Features</a>
+    <a href="#founders">Team</a>
+  </div>
+</footer>
+
+<script>
+  // Wattage map
+  const wattages = {
+    '1100': 1100, '150': 150, '350': 350, '2000': 2000, '1500': 1500, '750': 750
+  };
+  function updateWattage() {
+    const sel = document.getElementById('applianceSelect');
+    document.getElementById('wattageBadge').textContent = 'Wattage: ' + sel.value + 'W';
+  }
+  function toggleDay(btn) {
+    btn.classList.toggle('on');
+  }
+  function calculate() {
+    const sel = document.getElementById('applianceSelect');
+    const watt = parseFloat(sel.value);
+    const hours = parseFloat(document.getElementById('hoursInput').value) || 0;
+    const days = document.querySelectorAll('.day-btn.on').length;
+    const weeks = parseFloat(document.getElementById('weeksInput').value) || 1;
+    const rate = 11.50; // PHP per kWh (Meralco avg)
+    const kw = watt / 1000;
+    const perHour = kw * rate;
+    const perDay = perHour * hours;
+    const perWeek = perDay * days;
+    const perMonth = perWeek * weeks;
+    document.getElementById('r-hour').textContent = '₱' + perHour.toFixed(2);
+    document.getElementById('r-day').textContent = '₱' + perDay.toFixed(2);
+    document.getElementById('r-week').textContent = '₱' + perWeek.toFixed(2);
+    document.getElementById('r-month').textContent = '₱' + perMonth.toFixed(2);
+    document.getElementById('results').style.display = 'grid';
+  }
+
+  // Smooth active state for feature items
+  document.querySelectorAll('.feat-item').forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      document.querySelectorAll('.feat-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+    });
+  });
+
+  // Intersection observer for fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.style.opacity = '1';
+    });
+  }, { threshold: 0.1 });
+</script>
+</body>
+</html>
